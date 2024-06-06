@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
@@ -12,7 +12,7 @@ const TelaLogin = (props) => {
   const [campoUsuario, setCampoUsuario] = useState('');
   const [campoSenha, setCampoSenha] = useState('');
 
-  const entrar = async () => {
+  const handleEntrar = async () => {
     try {
       if (!campoUsuario.trim() || !campoSenha.trim()) {
         alert('Preencha os campos!');
@@ -22,10 +22,14 @@ const TelaLogin = (props) => {
       const response = await api.post('/logar', { email: campoUsuario, senha: campoSenha });
 
       await atualizarItemStorage(CHAVES_SOTORAGE.USUARIO_LOGADO, response.data);
-      props.navigation.navigate(TELAS.TELA_PRINCIPAL);
+      props.setUsuarioLogado(response.data); // Atualiza o estado do usuário logado
     } catch (error) {
       alert(error.response.data);
     }
+  };
+
+  const handleCadastroUsuario = () => {
+    props.navigation.navigate(TELAS.TELA_NOVO_USUARIO); // Navegue para a tela de cadastro de usuário
   };
 
   return (
@@ -35,14 +39,10 @@ const TelaLogin = (props) => {
       </View>
       <CampoTextoCustomizado label='E-mail' value={campoUsuario} onChangeText={setCampoUsuario} />
       <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha} />
-      <BotaoCustomizado cor='primaria' onPress={entrar}>
+      <BotaoCustomizado cor='primaria' onPress={handleEntrar}>
         Entrar
       </BotaoCustomizado>
-      <BotaoCustomizado
-        onPress={() => {
-          props.navigation.navigate(TELAS.TELA_NOVO_USUARIO);
-        }}
-      >
+      <BotaoCustomizado onPress={handleCadastroUsuario}>
         Novo Cadastro
       </BotaoCustomizado>
     </View>
