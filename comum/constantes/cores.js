@@ -1,5 +1,5 @@
 const CORES = {
-  PRIMARIA: '#3f50b5',
+  PRIMARIA: '#27A791',
 
   SECUNDARIA: '#ff9100',
 

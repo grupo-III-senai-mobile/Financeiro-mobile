@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
 import TELAS from '../../comum/constantes/telas';
@@ -42,27 +42,29 @@ const TelaNovoUsuario = (props) => {
   };
 
   return (
-    <View style={estilos.container}>
-      <View style={estilos.containerTituloNovoUsuario}>
-        <Text style={estilos.tituloNovoUsuario}>Novo Usuário</Text>
+    <ScrollView style={estilos.scrollView}>
+      <View style={estilos.container}>
+        <View style={estilos.containerTituloNovoUsuario}>
+          <Text style={estilos.tituloNovoUsuario}>Novo Usuário</Text>
+        </View>
+
+        <CampoTextoCustomizado label='Nome' value={campoNome} onChangeText={setCampoNome} />
+        <CampoTextoCustomizado label='Email' value={campoEmail} onChangeText={setCampoEmail} />
+        <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha} />
+        <CampoTextoCustomizado label='CPF' value={campoCPF} onChangeText={setCampoCPF} />
+        <CampoTextoCustomizado label='Data de Nascimento' value={campoDtNascimento} onChangeText={setCampoDtNascimento} />
+        <CampoTextoCustomizado label='Estado' value={campoEstado} onChangeText={setCampoEstado} />
+        <CampoTextoCustomizado label='Cidade' value={campoCidade} onChangeText={setCampoCidade} />
+        <CampoTextoCustomizado label='Bairro' value={campoBairro} onChangeText={setCampoBairro} />
+        <CampoTextoCustomizado label='Rua' value={campoRua} onChangeText={setCampoRua} />
+        <CampoTextoCustomizado label='Número' value={campoNumero} onChangeText={setCampoNumero} />
+
+        <BotaoCustomizado cor='secundaria' onPress={salvar}>
+          Salvar
+        </BotaoCustomizado>
+        <BotaoCustomizado onPress={() => props.navigation.navigate(TELAS.TELA_LOGIN)}>Já tenho uma conta</BotaoCustomizado>
       </View>
-
-      <CampoTextoCustomizado label='Nome' value={campoNome} onChangeText={setCampoNome} />
-      <CampoTextoCustomizado label='Email' value={campoEmail} onChangeText={setCampoEmail} />
-      <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha} />
-      <CampoTextoCustomizado label='CPF' value={campoCPF} onChangeText={setCampoCPF} />
-      <CampoTextoCustomizado label='Data de Nascimento' value={campoDtNascimento} onChangeText={setCampoDtNascimento} />
-      <CampoTextoCustomizado label='Estado' value={campoEstado} onChangeText={setCampoEstado} />
-      <CampoTextoCustomizado label='Cidade' value={campoCidade} onChangeText={setCampoCidade} />
-      <CampoTextoCustomizado label='Bairro' value={campoBairro} onChangeText={setCampoBairro} />
-      <CampoTextoCustomizado label='Rua' value={campoRua} onChangeText={setCampoRua} />
-      <CampoTextoCustomizado label='Número' value={campoNumero} onChangeText={setCampoNumero} />
-
-      <BotaoCustomizado cor='secundaria' onPress={salvar}>
-        Salvar
-      </BotaoCustomizado>
-      <BotaoCustomizado onPress={() => props.navigation.navigate(TELAS.TELA_LOGIN)}>Já tenho uma conta</BotaoCustomizado>
-    </View>
+    </ScrollView>
   );
 };
 

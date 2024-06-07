@@ -12,6 +12,7 @@ import TelaLogin from './telas/TelaLogin/TelaLogin';
 import TelaNovoUsuario from './telas/TelaNovoUsuario/TelaNovoUsuario';
 import { pegarItemStorage } from './comum/servicos/servicoStorage';
 import { CHAVES_SOTORAGE } from './comum/constantes/chaves-storage';
+import Icon from 'react-native-vector-icons/Ionicons';
 import CORES from './comum/constantes/cores';
 import TELAS from './comum/constantes/telas';
 
@@ -27,11 +28,52 @@ const estilos = StyleSheet.create({
 
 const Tabs = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name={TELAS.TELA_PRINCIPAL} component={TelaPrincipal} options={{ title: 'Principal' }} />
-      <Tab.Screen name={TELAS.TELA_CONTADOR} component={TelaContador} options={{ title: 'Contador' }} />
-      <Tab.Screen name={TELAS.TELA_FORMULARIO} component={TelaFormulario} options={{ title: 'Formulário' }} />
-      <Tab.Screen name={TELAS.TELA_LISTA_TAREFAS} component={TelaListaTarefas} options={{ title: 'Lista Tarefas' }} />
+    <Tab.Navigator
+      activeColor="#B4E0D9"
+      inactiveColor="#fff"
+      shifting={false}
+      barStyle={{ backgroundColor: CORES.PRIMARIA }}
+    >
+      <Tab.Screen
+        name={TELAS.TELA_PRINCIPAL}
+        component={TelaPrincipal}
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => (
+            <Icon name="home-outline" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TELAS.TELA_CONTADOR}
+        component={TelaContador}
+        options={{
+          title: 'Cadastros Gerais',
+          tabBarIcon: ({ color }) => (
+            <Icon name="person-outline" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TELAS.TELA_FORMULARIO}
+        component={TelaFormulario}
+        options={{
+          title: 'Laçamentos',
+          tabBarIcon: ({ color }) => (
+            <Icon name="create-outline" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TELAS.TELA_LISTA_TAREFAS}
+        component={TelaListaTarefas}
+        options={{
+          title: 'Lista Tarefas',
+          tabBarIcon: ({ color }) => (
+            <Icon name="list-outline" color={color} size={26} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

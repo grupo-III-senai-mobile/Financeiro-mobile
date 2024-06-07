@@ -2,17 +2,22 @@ import { StyleSheet } from 'react-native';
 
 const estilos = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     padding: 16,
-    gap: 16,
+    gap: 9,
+  },
+
+  scrollView: {
+    flex: 1,
   },
 
   containerTituloNovoUsuario: {
     alignItems: 'center',
+    marginBottom: 20,
   },
   tituloNovoUsuario: {
-    fontSize: 36,
+    fontSize: 26,
   },
 });
 
