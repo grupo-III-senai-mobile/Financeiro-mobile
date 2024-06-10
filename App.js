@@ -4,10 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
-import TelaContador from './telas/TelaContador/TelaContador';
-import TelaFormulario from './telas/TelaFormulario/TelaFormulario';
+import TelaCadastros from './telas/TelaCadastros/TelaCadastros';
+import TelaLancamentos from './telas/TelaLancamento/TelaLancamento';
+import TelaUsuario from './telas/TelaUsuario/TelaUsuario';
 import TelaPrincipal from './telas/TelaPrincipal/TelaPrincipal';
-import TelaListaTarefas from './telas/TelaListaTarefas/TelaListaTarefas';
+import TelaExtratos from './telas/TelaExtratos/TelaExtratos';
 import TelaLogin from './telas/TelaLogin/TelaLogin';
 import TelaNovoUsuario from './telas/TelaNovoUsuario/TelaNovoUsuario';
 import { pegarItemStorage } from './comum/servicos/servicoStorage';
@@ -45,18 +46,18 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name={TELAS.TELA_CONTADOR}
-        component={TelaContador}
+        name={TELAS.TELA_CADASTROS}
+        component={TelaCadastros}
         options={{
-          title: 'Cadastros Gerais',
+          title: 'Cadastros',
           tabBarIcon: ({ color }) => (
-            <Icon name="person-outline" color={color} size={26} />
+            <Icon name="cog" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name={TELAS.TELA_FORMULARIO}
-        component={TelaFormulario}
+        name={TELAS.TELA_LANCAMENTO}
+        component={TelaLancamentos}
         options={{
           title: 'Laçamentos',
           tabBarIcon: ({ color }) => (
@@ -65,12 +66,22 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name={TELAS.TELA_LISTA_TAREFAS}
-        component={TelaListaTarefas}
+        name={TELAS.TELA_EXTRATOS}
+        component={TelaExtratos}
         options={{
-          title: 'Lista Tarefas',
+          title: 'Extratos',
           tabBarIcon: ({ color }) => (
             <Icon name="list-outline" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TELAS.TELA_USUARIO}
+        component={TelaUsuario}
+        options={{
+          title: 'Usuarios',
+          tabBarIcon: ({ color }) => (
+            <Icon name="person-outline" color={color} size={26} />
           ),
         }}
       />
