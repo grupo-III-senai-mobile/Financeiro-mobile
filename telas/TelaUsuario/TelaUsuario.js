@@ -39,19 +39,24 @@ const TelaFormulario = () => {
 
   const handleSave = async () => {
     try {
-      await api.put(`/usuario/${usuario.id}`, {
+      const dadosUsuario = {
         nome: usuario.nome,
         email: usuario.email,
-        senha: usuario.senha,
         estado: usuario.estado,
         cidade: usuario.cidade,
         bairro: usuario.bairro,
         rua: usuario.rua,
         numero: usuario.numero
-      });
+      };
+
+      console.log('Dados enviados:', dadosUsuario);
+
+      const response = await api.put(`/usuario/${usuario.id}`, dadosUsuario);
+      console.log('Resposta da API:', response.data);
+      await AsyncStorage.setItem('USUARIO_LOGADO', JSON.stringify(dadosUsuario));
       Alert.alert('Sucesso', 'Perfil atualizado com sucesso!');
     } catch (error) {
-      console.error('Erro ao atualizar o perfil:', error);
+      console.error('Erro ao atualizar o perfil:', error.response || error.message || error);
       Alert.alert('Erro', error.response?.data || 'Erro ao atualizar o perfil. Por favor, tente novamente.');
     }
   };
