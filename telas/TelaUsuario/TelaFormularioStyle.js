@@ -28,5 +28,6 @@ export const pickerSelectStyles = StyleSheet.create({
     borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
+    // alignSelf:'baseline'
   },
 });
