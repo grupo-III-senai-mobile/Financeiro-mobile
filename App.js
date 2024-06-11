@@ -41,7 +41,7 @@ const Tabs = () => {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <Icon name="home-outline" color={color} size={26} />
+            <Icon name="home" color={color} size={26} />
           ),
         }}
       />
@@ -81,7 +81,7 @@ const Tabs = () => {
         options={{
           title: 'Usuarios',
           tabBarIcon: ({ color }) => (
-            <Icon name="person-outline" color={color} size={26} />
+            <Icon name="person-circle-sharp" color={color} size={26} />
           ),
         }}
       />

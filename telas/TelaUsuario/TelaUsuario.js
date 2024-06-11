@@ -1,57 +1,83 @@
-import React from 'react';
-import { Switch, View } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import React, { useEffect, useState } from 'react';
+import { View, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
 import CORES from '../../comum/constantes/cores';
-
-import { estilos, pickerSelectStyles } from './TelaFormularioStyle';
-
+import { estilos } from './TelaFormularioStyle';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import api from '../../comum/servicos/api';
 
 const TelaFormulario = () => {
-  const [campoNome, setCampoNome] = React.useState('');
-  const [campoSobrenome, setCampoSobrenome] = React.useState('');
-  const [campoCPF, setcampoCPF] = React.useState('');
-  const [campoAceitaTermos, setCampoAceitaTermos] = React.useState(false);
-  const [campoEsporte, setCampoEsporte] = React.useState('');
+  const [usuario, setUsuario] = useState({
+    id: '',
+    nome: '',
+    email: '',
+    estado: '',
+    cidade: '',
+    bairro: '',
+    rua: '',
+    numero: ''
+  });
 
-  const salvar = () => {
-    console.log('Salvar:', { campoNome, campoSobrenome, campoCPF, campoAceitaTermos, campoEsporte });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const usuarioLogado = await AsyncStorage.getItem('USUARIO_LOGADO');
+        if (usuarioLogado) {
+          const userData = JSON.parse(usuarioLogado);
+          setUsuario(userData);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar os dados do usuário:', error);
+        Alert.alert('Erro', 'Erro ao buscar os dados do usuário. Por favor, tente novamente.');
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      await api.put(`/usuario/${usuario.id}`, {
+        nome: usuario.nome,
+        email: usuario.email,
+        senha: usuario.senha,
+        estado: usuario.estado,
+        cidade: usuario.cidade,
+        bairro: usuario.bairro,
+        rua: usuario.rua,
+        numero: usuario.numero
+      });
+      Alert.alert('Sucesso', 'Perfil atualizado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao atualizar o perfil:', error);
+      Alert.alert('Erro', error.response?.data || 'Erro ao atualizar o perfil. Por favor, tente novamente.');
+    }
+  };
+
+  const handleChange = (key, value) => {
+    setUsuario(prevState => ({
+      ...prevState,
+      [key]: value
+    }));
   };
 
   return (
     <View style={estilos.container}>
       <View style={{ alignSelf: 'center' }}>
-        <MaterialIcons name='attach-money' size={64} color={CORES.SECUNDARIA} />
+        <MaterialIcons name='edit' size={64} color={CORES.PRIMARIA} />
       </View>
 
-      <CampoTextoCustomizado label='Nome' value={campoNome} onChangeText={setCampoNome} />
-      <CampoTextoCustomizado label='Sobrenome' value={campoSobrenome} onChangeText={setCampoSobrenome} />
-      <CampoTextoCustomizado label='CPF' inputMode='numeric' value={campoCPF} onChangeText={setcampoCPF} />
+      <CampoTextoCustomizado placeholder='Nome' value={usuario.nome} onChangeText={value => handleChange('nome', value)} />
+      <CampoTextoCustomizado placeholder='Email' value={usuario.email} onChangeText={value => handleChange('email', value)} />
+      <CampoTextoCustomizado placeholder='Estado' value={usuario.estado} onChangeText={value => handleChange('estado', value)} />
+      <CampoTextoCustomizado placeholder='Cidade' value={usuario.cidade} onChangeText={value => handleChange('cidade', value)} />
+      <CampoTextoCustomizado placeholder='Bairro' value={usuario.bairro} onChangeText={value => handleChange('bairro', value)} />
+      <CampoTextoCustomizado placeholder='Rua' value={usuario.rua} onChangeText={value => handleChange('rua', value)} />
+      <CampoTextoCustomizado placeholder='Número' value={usuario.numero} onChangeText={value => handleChange('numero', value)} />
 
-      <Switch
-        trackColor={{ false: '#767577', true: '#81b0ff' }}
-        thumbColor={campoAceitaTermos ? '#f5dd4b' : '#f4f3f4'}
-        onValueChange={setCampoAceitaTermos}
-        value={campoAceitaTermos}
-      />
-
-      <RNPickerSelect
-        style={pickerSelectStyles}
-        onValueChange={setCampoEsporte}
-        value={campoEsporte}
-        items={[
-          { label: 'Futebol', value: '1' },
-          { label: 'Baseball', value: '2' },
-          { label: 'Volei', value: '3' },
-          { label: 'Surf', value: '4' },
-          { label: 'Sakate', value: '5' },
-        ]}
-        placeholder={{ label: 'Selecione um Esporte', value: null }}
-      />
-
-      <BotaoCustomizado onPress={salvar}>Salvar</BotaoCustomizado>
+      <BotaoCustomizado onPress={handleSave}>Salvar Alterações</BotaoCustomizado>
     </View>
   );
 };
