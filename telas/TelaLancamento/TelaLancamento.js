@@ -1,59 +1,71 @@
-import React from 'react';
-import { Switch, View } from 'react-native';
+
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
-import CORES from '../../comum/constantes/cores';
+import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
+import api from '../../comum/servicos/api'
 
 import { estilos, pickerSelectStyles } from './TelaFormularioStyle';
 
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+const TelaLancamento = () => {
+  const [descricao, setDescricao] = useState('');
+  const [lancamentoTipo, setlancamentoTipo] = useState('');
+  const [valor, setValor] = useState('');
+  const [dataVencimento, setDataVencimento] = useState('');
+  const [contaBancariaId, setContaBancaria] = useState('');
+  const [receitaId, setReceita] = useState('');
+  const [centroCustoId, setCentroCusto] = useState('');
 
-const TelaFormulario = () => {
-  const [campoNome, setCampoNome] = React.useState('');
-  const [campoSobrenome, setCampoSobrenome] = React.useState('');
-  const [campoCPF, setcampoCPF] = React.useState('');
-  const [campoAceitaTermos, setCampoAceitaTermos] = React.useState(false);
-  const [campoEsporte, setCampoEsporte] = React.useState('');
+  const enviarDadosParaAPI = async (endpoint, dados) => {
+    try {
+      console.log("Enviando dados para a API:", endpoint, dados);
 
-  const salvar = () => {
-    console.log('Salvar:', { campoNome, campoSobrenome, campoCPF, campoAceitaTermos, campoEsporte });
-  };
+      await api.post(endpoint, dados);
+
+      alert('Dados salvos com sucesso!');
+    } catch (error) {
+      console.error("Erro na solicitação:", error);
+      const mensagemErro = error.response?.data || 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+      alert(mensagemErro);
+    }
+  }
+
+  const adicionarLancamento = async () => {
+         const novoLancamento = {
+              descricao,
+              lancamentoTipo,
+              valor,
+              dataVencimento,
+              receitaId, 
+              contaBancariaId, 
+              centroCustoId 
+         };
+          await enviarDadosParaAPI('/lancamento', novoLancamento);
+       }
 
   return (
     <View style={estilos.container}>
-      <View style={{ alignSelf: 'center' }}>
-        <MaterialIcons name='attach-money' size={64} color={CORES.SECUNDARIA} />
-      </View>
-
-      <CampoTextoCustomizado label='Nome' value={campoNome} onChangeText={setCampoNome} />
-      <CampoTextoCustomizado label='Sobrenome' value={campoSobrenome} onChangeText={setCampoSobrenome} />
-      <CampoTextoCustomizado label='CPF' inputMode='numeric' value={campoCPF} onChangeText={setcampoCPF} />
-
-      <Switch
-        trackColor={{ false: '#767577', true: '#81b0ff' }}
-        thumbColor={campoAceitaTermos ? '#f5dd4b' : '#f4f3f4'}
-        onValueChange={setCampoAceitaTermos}
-        value={campoAceitaTermos}
-      />
-
+      <CampoTextoCustomizado label="Descrição" value={descricao} onChangeText={setDescricao} />
       <RNPickerSelect
         style={pickerSelectStyles}
-        onValueChange={setCampoEsporte}
-        value={campoEsporte}
+        onValueChange={setlancamentoTipo}
+        value={lancamentoTipo}
         items={[
-          { label: 'Futebol', value: '1' },
-          { label: 'Baseball', value: '2' },
-          { label: 'Volei', value: '3' },
-          { label: 'Surf', value: '4' },
-          { label: 'Sakate', value: '5' },
+          { label: 'Pagamento', value: 'Pagamento' },
+          { label: 'Recebimento', value: 'Recebimento' },
         ]}
-        placeholder={{ label: 'Selecione um Esporte', value: null }}
+        placeholder={{ label: 'Selecione o tipo de pagamento', value: "" }}
       />
 
-      <BotaoCustomizado onPress={salvar}>Salvar</BotaoCustomizado>
+      <CampoTextoCustomizado label="Valor" value={valor} onChangeText={setValor} />
+      <CampoTextoCustomizado label="Data de vencimento" value={dataVencimento} onChangeText={setDataVencimento} />
+      <CampoTextoCustomizado label="Receita" value={receitaId} onChangeText={setReceita} />
+      <CampoTextoCustomizado label="Conta bancária" value={contaBancariaId} onChangeText={setContaBancaria} />
+      <CampoTextoCustomizado label="Centro de custo" value={centroCustoId} onChangeText={setCentroCusto} />
+      <BotaoCustomizado onPress={adicionarLancamento}>Adicionar</BotaoCustomizado>
     </View>
   );
 };
 
-export default TelaFormulario;
+export default TelaLancamento;

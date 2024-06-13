@@ -83,25 +83,26 @@ const TelaCadastros = (props) => {
     <View style={estilos.container}>
 
       <View style={{ alignSelf: 'center' }}>
-        <MaterialIcons name='attach-money' size={64} color={CORES.SECUNDARIA} />
+        < MaterialIcons style={estilos.icons} name='attach-money' size={64}  />
       </View>
 
      {/* Receita */}
 
       <View style={{ flexDirection: 'center', alignItems: 'center'}}>
-        <Text>Receita</Text>
+        <Text style={estilos.text} >Receita</Text>
       </View>
       
-      <CampoTextoCustomizado placeholder="Nome" value={campoNome} onChangeText={setCampoNome} />
-      <CampoTextoCustomizado placeholder='Email' value={campoEmail} onChangeText={setCampoEmail} />
-      <CampoTextoCustomizado placeholder='CPF' inputMode='numeric' value={campoCPF} onChangeText={setcampoCPF} />
-      <CampoTextoCustomizado placeholder='Telefone' inputMode='numeric' value={campoTelefone} onChangeText={setCampoTelefone} />
+      <CampoTextoCustomizado style={estilos.input} placeholder="Nome" value={campoNome} onChangeText={setCampoNome} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Email' value={campoEmail} onChangeText={setCampoEmail} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='CPF' inputMode='numeric' value={campoCPF} onChangeText={setcampoCPF} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Telefone' inputMode='numeric' value={campoTelefone} onChangeText={setCampoTelefone} />
       <BotaoCustomizado cor="primaria" onPress={AdicionarReceita}>Adicionar</BotaoCustomizado>
+      <br/>
 
      {/* Centro de custo */}
 
      <View style={{ alignSelf:'center'}}>
-         <FontAwesome5 name='calculator' size={45} color={'purple'}></FontAwesome5>
+         <FontAwesome5 style={estilos.icons} name='calculator' size={45} color={'purple'}></FontAwesome5>
       </View>
 
 
@@ -109,25 +110,27 @@ const TelaCadastros = (props) => {
       <Text style={estilos.text}>Centro de custo</Text>
       </View>
 
-      <CampoTextoCustomizado placeholder="Nome" value={campoNomeCentroDeCusto} onChangeText={setCampoNomeCentroDeCusto} />
-      <CampoTextoCustomizado placeholder='Email' value={campoEmailCentroDeCusto} onChangeText={setCampoEmailCentroDeCusto} />
-      <CampoTextoCustomizado placeholder='CPF' inputMode='numeric' value={campoCPFCentroDeCusto} onChangeText={setcampoCPFCentroDeCusto} />
-      <CampoTextoCustomizado placeholder='Telefone' inputMode='numeric' value={campoTelefoneCentroDeCusto} onChangeText={setCampoTelefoneCentroDeCusto} />
+      <CampoTextoCustomizado style={estilos.input} placeholder="Nome" value={campoNomeCentroDeCusto} onChangeText={setCampoNomeCentroDeCusto} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Email' value={campoEmailCentroDeCusto} onChangeText={setCampoEmailCentroDeCusto} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='CPF' inputMode='numeric' value={campoCPFCentroDeCusto} onChangeText={setcampoCPFCentroDeCusto} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Telefone' inputMode='numeric' value={campoTelefoneCentroDeCusto} onChangeText={setCampoTelefoneCentroDeCusto} />
       <BotaoCustomizado  cor="primaria" onPress={AdicionarCentroDeCusto}>Adicionar</BotaoCustomizado>
+      <br/>
 
        {/* Conta Bancaria */}
 
+      
+
       <View style={{ flexDirection: 'center', alignItems: 'center'}}>
-      <Text>Conta Bancaria</Text>
+         <FontAwesome style={estilos.icons} name='bank' size={45} color={'purple'}></FontAwesome>
+        
+      <Text style={estilos.text}>Conta Bancaria</Text>
       </View>
+      
 
-      <View style={{ alignSelf:'center'}}>
-         <FontAwesome name='bank' size={45} color={'purple'}></FontAwesome>
-      </View>
-
-      <CampoTextoCustomizado placeholder="Nome" value={campoNomeContaBancaria} onChangeText={setCampoNomeContaBancaria} />
-      <CampoTextoCustomizado placeholder='Agencia' inputMode='numeric' value={campoAgenciaContaBancaria} onChangeText={setCampoAgenciaContaBancaria} />
-      <CampoTextoCustomizado placeholder='Conta' inputMode='numeric' value={campoContaContaBancaria} onChangeText={setCampoContaContaBancaria} />
+      <CampoTextoCustomizado style={estilos.input} placeholder="Nome" value={campoNomeContaBancaria} onChangeText={setCampoNomeContaBancaria} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Agencia' inputMode='numeric' value={campoAgenciaContaBancaria} onChangeText={setCampoAgenciaContaBancaria} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Conta' inputMode='numeric' value={campoContaContaBancaria} onChangeText={setCampoContaContaBancaria} />
       <BotaoCustomizado  cor="primaria" onPress={AdicionarContaBancaria}>Adicionar</BotaoCustomizado>
 
 

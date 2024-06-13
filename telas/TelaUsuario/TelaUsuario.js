@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
@@ -70,17 +70,19 @@ const TelaFormulario = () => {
 
   return (
     <View style={estilos.container}>
-      <View style={{ alignSelf: 'center' }}>
+      <View style={{ alignItems: 'center' }}>
         <MaterialIcons name='edit' size={64} color={CORES.PRIMARIA} />
+        <Text style={estilos.editarperfil} >EDITAR PERFIL</Text>
       </View>
 
-      <CampoTextoCustomizado placeholder='Nome' value={usuario.nome} onChangeText={value => handleChange('nome', value)} />
-      <CampoTextoCustomizado placeholder='Email' value={usuario.email} onChangeText={value => handleChange('email', value)} />
-      <CampoTextoCustomizado placeholder='Estado' value={usuario.estado} onChangeText={value => handleChange('estado', value)} />
-      <CampoTextoCustomizado placeholder='Cidade' value={usuario.cidade} onChangeText={value => handleChange('cidade', value)} />
-      <CampoTextoCustomizado placeholder='Bairro' value={usuario.bairro} onChangeText={value => handleChange('bairro', value)} />
-      <CampoTextoCustomizado placeholder='Rua' value={usuario.rua} onChangeText={value => handleChange('rua', value)} />
-      <CampoTextoCustomizado placeholder='Número' value={usuario.numero} onChangeText={value => handleChange('numero', value)} />
+
+      <CampoTextoCustomizado style={estilos.input} placeholder='Nome' value={usuario.nome} onChangeText={value => handleChange('nome', value)} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Email' value={usuario.email} onChangeText={value => handleChange('email', value)} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Estado' value={usuario.estado} onChangeText={value => handleChange('estado', value)} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Cidade' value={usuario.cidade} onChangeText={value => handleChange('cidade', value)} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Bairro' value={usuario.bairro} onChangeText={value => handleChange('bairro', value)} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Rua' value={usuario.rua} onChangeText={value => handleChange('rua', value)} />
+      <CampoTextoCustomizado style={estilos.input} placeholder='Número' value={usuario.numero} onChangeText={value => handleChange('numero', value)} />
 
       <BotaoCustomizado onPress={handleSave}>Salvar Alterações</BotaoCustomizado>
     </View>
