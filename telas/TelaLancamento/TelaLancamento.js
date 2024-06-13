@@ -1,11 +1,9 @@
-
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
-import api from '../../comum/servicos/api'
-
+import api from '../../comum/servicos/api';
 import { estilos, pickerSelectStyles } from './TelaFormularioStyle';
 
 const TelaLancamento = () => {
@@ -16,33 +14,74 @@ const TelaLancamento = () => {
   const [contaBancariaId, setContaBancaria] = useState('');
   const [receitaId, setReceita] = useState('');
   const [centroCustoId, setCentroCusto] = useState('');
+  const [contasBancarias, setContasBancarias] = useState([]);
+  const [receitas, setReceitas] = useState([]);
+  const [centrosCusto, setCentrosCusto] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [contasBancariasResponse, receitasResponse, centrosCustoResponse] = await Promise.all([
+          api.get('/contaBancaria'),
+          api.get('/receita'),
+          api.get('/centroCusto')
+        ]);
+
+        console.log("Resposta /contaBancaria:", contasBancariasResponse);
+        console.log("Resposta /receita:", receitasResponse);
+        console.log("Resposta /centroCusto:", centrosCustoResponse);
+
+        if (Array.isArray(contasBancariasResponse.data.resultado)) {
+          setContasBancarias(contasBancariasResponse.data.resultado.map(item => ({ label: item.nome, value: item.id })));
+        } else {
+          console.error("Dados de /contaBancaria não são um array:", contasBancariasResponse.data);
+        }
+
+        if (Array.isArray(receitasResponse.data.resultado)) {
+          setReceitas(receitasResponse.data.resultado.map(item => ({ label: item.nome, value: item.id })));
+        } else {
+          console.error("Dados de /receitas não são um array:", receitasResponse.data);
+        }
+
+        if (Array.isArray(centrosCustoResponse.data.resultado)) {
+          setCentrosCusto(centrosCustoResponse.data.resultado.map(item => ({ label: item.nome, value: item.id })));
+        } else {
+          console.error("Dados de /centrosCusto não são um array:", centrosCustoResponse.data);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+        Alert.alert('Erro', 'Não foi possível carregar os dados. Tente novamente mais tarde.');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const enviarDadosParaAPI = async (endpoint, dados) => {
     try {
       console.log("Enviando dados para a API:", endpoint, dados);
-
       await api.post(endpoint, dados);
-
       alert('Dados salvos com sucesso!');
     } catch (error) {
       console.error("Erro na solicitação:", error);
       const mensagemErro = error.response?.data || 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
       alert(mensagemErro);
     }
-  }
+  };
 
   const adicionarLancamento = async () => {
-         const novoLancamento = {
-              descricao,
-              lancamentoTipo,
-              valor,
-              dataVencimento,
-              receitaId, 
-              contaBancariaId, 
-              centroCustoId 
-         };
-          await enviarDadosParaAPI('/lancamento', novoLancamento);
-       }
+    const novoLancamento = {
+      descricao,
+      lancamentoTipo,
+      valor,
+      dataVencimento,
+      receitaId,
+      contaBancariaId,
+      centroCustoId,
+    };
+    console.log(novoLancamento);
+    await enviarDadosParaAPI('/lancamento', novoLancamento);
+  };
 
   return (
     <View style={estilos.container}>
@@ -57,12 +96,29 @@ const TelaLancamento = () => {
         ]}
         placeholder={{ label: 'Selecione o tipo de pagamento', value: "" }}
       />
-
       <CampoTextoCustomizado label="Valor" value={valor} onChangeText={setValor} />
       <CampoTextoCustomizado label="Data de vencimento" value={dataVencimento} onChangeText={setDataVencimento} />
-      <CampoTextoCustomizado label="Receita" value={receitaId} onChangeText={setReceita} />
-      <CampoTextoCustomizado label="Conta bancária" value={contaBancariaId} onChangeText={setContaBancaria} />
-      <CampoTextoCustomizado label="Centro de custo" value={centroCustoId} onChangeText={setCentroCusto} />
+      <RNPickerSelect
+        style={pickerSelectStyles}
+        onValueChange={setReceita}
+        value={receitaId}
+        items={receitas}
+        placeholder={{ label: 'Selecione a receita', value: "" }}
+      />
+      <RNPickerSelect
+        style={pickerSelectStyles}
+        onValueChange={setContaBancaria}
+        value={contaBancariaId}
+        items={contasBancarias}
+        placeholder={{ label: 'Selecione a conta bancária', value: "" }}
+      />
+      <RNPickerSelect
+        style={pickerSelectStyles}
+        onValueChange={setCentroCusto}
+        value={centroCustoId}
+        items={centrosCusto}
+        placeholder={{ label: 'Selecione o centro de custo', value: "" }}
+      />
       <BotaoCustomizado onPress={adicionarLancamento}>Adicionar</BotaoCustomizado>
     </View>
   );
