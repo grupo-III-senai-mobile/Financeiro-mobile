@@ -4,7 +4,7 @@ import CORES from '../../comum/constantes/cores';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#000',
+      backgroundColor: '#1E1E1E',
       padding: 20,
     },
     logoContainer: {
