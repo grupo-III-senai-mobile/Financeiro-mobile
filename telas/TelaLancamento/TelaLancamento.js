@@ -85,10 +85,14 @@ const TelaLancamento = () => {
 
   return (
     <View style={estilos.container}>
-      <CampoTextoCustomizado label="Descrição" value={descricao} onChangeText={setDescricao} />
+      <CampoTextoCustomizado style={estilos.textocampo} placeholder="Descrição" value={descricao} onChangeText={setDescricao} />
       <RNPickerSelect
         style={pickerSelectStyles}
-        onValueChange={setlancamentoTipo}
+        onValueChange={(value) => {
+          setlancamentoTipo(value);
+          setReceita(''); // Limpar receita ao mudar tipo para 'Pagamento'
+          setCentroCusto(''); // Limpar centro de custo ao mudar tipo para 'Recebimento'
+        }}
         value={lancamentoTipo}
         items={[
           { label: 'Pagamento', value: 'Pagamento' },
@@ -96,15 +100,19 @@ const TelaLancamento = () => {
         ]}
         placeholder={{ label: 'Selecione o tipo de pagamento', value: "" }}
       />
-      <CampoTextoCustomizado label="Valor" value={valor} onChangeText={setValor} />
-      <CampoTextoCustomizado label="Data de vencimento" value={dataVencimento} onChangeText={setDataVencimento} />
-      <RNPickerSelect
-        style={pickerSelectStyles}
-        onValueChange={setReceita}
-        value={receitaId}
-        items={receitas}
-        placeholder={{ label: 'Selecione a receita', value: "" }}
-      />
+      <CampoTextoCustomizado style={estilos.textocampo} placeholder="Valor" value={valor} onChangeText={setValor} />
+      <CampoTextoCustomizado style={estilos.textocampo} placeholder="Data de vencimento" value={dataVencimento} onChangeText={setDataVencimento} />
+      {lancamentoTipo === 'Recebimento' ? (
+        <RNPickerSelect
+          style={pickerSelectStyles}
+          onValueChange={setReceita}
+          value={receitaId}
+          items={receitas}
+          placeholder={{ label: 'Selecione a receita', value: "" }}
+        />
+      ) : (
+        <View />
+      )}
       <RNPickerSelect
         style={pickerSelectStyles}
         onValueChange={setContaBancaria}
@@ -112,14 +120,18 @@ const TelaLancamento = () => {
         items={contasBancarias}
         placeholder={{ label: 'Selecione a conta bancária', value: "" }}
       />
-      <RNPickerSelect
-        style={pickerSelectStyles}
-        onValueChange={setCentroCusto}
-        value={centroCustoId}
-        items={centrosCusto}
-        placeholder={{ label: 'Selecione o centro de custo', value: "" }}
-      />
-      <BotaoCustomizado onPress={adicionarLancamento}>Adicionar</BotaoCustomizado>
+      {lancamentoTipo === 'Pagamento' ? (
+        <RNPickerSelect
+          style={pickerSelectStyles}
+          onValueChange={setCentroCusto}
+          value={centroCustoId}
+          items={centrosCusto}
+          placeholder={{ label: 'Selecione o centro de custo', value: "" }}
+        />
+      ) : (
+        <View />
+      )}
+      <BotaoCustomizado cor='primaria' onPress={adicionarLancamento}>Adicionar</BotaoCustomizado>
     </View>
   );
 };

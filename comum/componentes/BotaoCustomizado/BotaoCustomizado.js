@@ -8,6 +8,7 @@ const estilos = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
   },
   botaoPrimario: {
     backgroundColor: CORES.PRIMARIA,

@@ -5,28 +5,49 @@ export const estilos = StyleSheet.create({
     flex: 1,
     padding: 16,
     gap: 16,
+    backgroundColor : '#1E1E1E'
   },
+  textocampo: {
+    backgroundColor: '#2C2C2C', // Fundo escuro para os inputs
+    color: '#FFFFFF', // Texto claro
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 10, // Bordas arredondadas
+    borderWidth: 1,
+    borderColor: '#27A791', // Borda com a cor do tema
+  }
 });
 
 export const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
+    backgroundColor: '#2C2C2C', // Fundo escuro para os inputs
+    color: 'red', // Texto claro
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 10, // Bordas arredondadas
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    borderColor: '#27A791', // Borda com a cor do tema
   },
   inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    backgroundColor: '#2C2C2C', // Fundo escuro para os inputs
+    color: 'red', // Texto claro
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 10, // Bordas arredondadas
+    borderWidth: 1,
+    borderColor: '#27A791', // Borda com a cor do tema
+  },
+  placeholder: {
+    color: 'red', // Cor do placeholder
+  },
+
+  inputWeb: {
+    backgroundColor: '#2C2C2C', // Fundo escuro para os inputs
+    color: 'white', // Texto claro
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 10, // Bordas arredondadas
+    borderWidth: 1,
+    borderColor: '#27A791', // Borda com a cor do tema
   },
 });
