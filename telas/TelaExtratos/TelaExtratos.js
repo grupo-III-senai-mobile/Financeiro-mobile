@@ -1,75 +1,134 @@
-import React, { useEffect } from 'react';
-import { FlatList, SafeAreaView, View } from 'react-native';
-import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
-import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
-import ListagemVazia from '../../comum/componentes/ListagemVazia/ListagemVazia';
-import { CHAVES_SOTORAGE } from '../../comum/constantes/chaves-storage';
-import { atualizarItemStorage, limparStorage, pegarItemStorage } from '../../comum/servicos/servicoStorage';
-import ItemTarefa from './ItemTarefa';
-import SeparadorListagens from './SeparadorListagem';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import api from '../../comum/servicos/api';
+import { MaterialIcons } from '@expo/vector-icons'; // Importando ícones do Material Icons
 import estilos from './TelaListaTarefasStyle';
 
-const TelaListaTarefas = () => {
-  const [listaTarefas, setListaTarefas] = React.useState([]);
-  const [campoDescricao, setCampoDescricao] = React.useState('');
+const TelaListaLancamentos = () => {
+  const [listaLancamentos, setListaLancamentos] = useState([]);
 
-  useEffect(() => {
-    const atualizarListagemDoStorage = async () => {
-      const listagemDosStorage = await pegarItemStorage(CHAVES_SOTORAGE.LISTA_TAREFAS);
-      if (listagemDosStorage) {
-        setListaTarefas(listagemDosStorage);
-      }
-    };
-
-    atualizarListagemDoStorage();
-  }, []);
-
-  const adicinarTarefa = async () => {
+  const fetchLancamentos = async () => {
     try {
-      // if (campoDescricao !== null && campoDescricao !== undefined && campoDescricao !== '')
-      if (campoDescricao) {
-        const novaLista = [...listaTarefas, { descricao: campoDescricao, id: +new Date() }];
-        setListaTarefas(novaLista);
-        setCampoDescricao('');
+      const response = await api.get('/lancamento');
+      console.log("Resposta /lancamento:", response.data);
 
-        await atualizarItemStorage(CHAVES_SOTORAGE.LISTA_TAREFAS, novaLista);
+      if (response.data && Array.isArray(response.data)) {
+        const lancamentosFiltrados = response.data.filter(lancamento => {
+          const dataVencimento = new Date(lancamento.dataVencimento);
+          const hoje = new Date();
+          return dataVencimento >= hoje; // Filtra apenas lançamentos cuja data de vencimento não passou
+        });
+        setListaLancamentos(lancamentosFiltrados);
       } else {
-        alert('Campo descrição é obrigatório.');
+        console.error("Dados de /lancamento não são um array:", response.data);
       }
-    } catch {
-      console.log('Deu erro ao adicionar na lista de tarefas.');
+    } catch (error) {
+      console.error("Erro ao buscar dados de /lancamento:", error);
+      // Trate o erro conforme necessário, exibindo uma mensagem ao usuário, por exemplo
     }
   };
 
-  const limparLista = () => {
-    setListaTarefas([]);
-    limparStorage(CHAVES_SOTORAGE.LISTA_TAREFAS);
+  useEffect(() => {
+    fetchLancamentos();
+  }, []);
+
+  const handleExcluirLancamento = async (id) => {
+    try {
+      await api.delete(`/lancamento/${id}`);
+      const novaLista = listaLancamentos.filter(lancamento => lancamento.id !== id);
+      setListaLancamentos(novaLista);
+      console.log(`Lançamento com ID ${id} excluído com sucesso.`);
+    } catch (error) {
+      console.error(`Erro ao excluir lançamento com ID ${id}:`, error);
+      // Trate o erro conforme necessário, exibindo uma mensagem ao usuário, por exemplo
+    }
   };
+
+  const renderItemLancamento = ({ item }) => (
+    <View style={styles.lancamentoItem}>
+      <View style={styles.iconContainer}>
+        {item.lancamentoTipo === 'Recebimento' && (
+          <MaterialIcons name="arrow-downward" size={20} color="green" />
+        )}
+        {item.lancamentoTipo === 'Pagamento' && (
+          <MaterialIcons name="arrow-upward" size={20} color="red" />
+        )}
+      </View>
+      <View style={styles.detalhesLancamento}>
+        <Text style={styles.descricaoLancamento}>Descrição: {item.descricao}</Text>
+        <Text style={styles.infoLancamento}>Tipo: {item.lancamentoTipo}</Text>
+        <Text style={styles.infoLancamento}>Valor: {item.valor}</Text>
+        <Text style={styles.infoLancamento}>Data de Vencimento: {new Date(item.dataVencimento).toLocaleDateString()}</Text>
+      </View>
+      <TouchableOpacity onPress={() => handleExcluirLancamento(item.id)} style={styles.botaoExcluir}>
+        <Text style={styles.textoBotaoExcluir}>Excluir</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <SafeAreaView style={estilos.container}>
-      <View style={estilos.containerCampoAdicionar}>
-        <View style={{ flex: 1 }}>
-          <CampoTextoCustomizado label='Descrição Tarefa' value={campoDescricao} onChangeText={setCampoDescricao} />
-        </View>
-
-        <BotaoCustomizado cor='primaria' onPress={adicinarTarefa}>
-          +
-        </BotaoCustomizado>
-      </View>
+      <TouchableOpacity onPress={fetchLancamentos} style={styles.botaoAtualizar}>
+        <Text style={styles.textoBotaoAtualizar}>Atualizar Lista</Text>
+      </TouchableOpacity>
 
       <FlatList
-        data={listaTarefas}
-        // renderItem={ItemTarefa}
-        renderItem={(props) => <ItemTarefa {...props} setListaTarefas={setListaTarefas} />}
-        ItemSeparatorComponent={SeparadorListagens}
-        ListEmptyComponent={ListagemVazia}
-        keyExtractor={(item) => item.id}
+        data={listaLancamentos}
+        renderItem={renderItemLancamento}
+        keyExtractor={(item) => item.id.toString()}
       />
-
-      <BotaoCustomizado onPress={limparLista}>Limpar Lista</BotaoCustomizado>
     </SafeAreaView>
   );
 };
 
-export default TelaListaTarefas;
+const styles = StyleSheet.create({
+  lancamentoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    color: '#FFFFFF',
+  },
+  iconContainer: {
+    marginRight: 10,
+    color: '#FFFFFF',
+  },
+  detalhesLancamento: {
+    flex: 1,
+    color: '#FFFFFF',
+  },
+  descricaoLancamento: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#FFFFFF',
+  },
+  infoLancamento: {
+    marginBottom: 3,
+    color: '#FFFFFF',
+  },
+  botaoExcluir: {
+    backgroundColor: 'red',
+    padding: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  textoBotaoExcluir: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  botaoAtualizar: {
+    backgroundColor: '#27A791',
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  textoBotaoAtualizar: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
+
+export default TelaListaLancamentos;

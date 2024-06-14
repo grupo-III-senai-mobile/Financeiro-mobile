@@ -5,30 +5,12 @@ import CORES from '../../comum/constantes/cores';
 const estilos = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  itemTarefa: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: CORES.CINZA,
+    backgroundColor: '#1E1E1E', // Fundo dark
     padding: 20,
-    margin: 8,
+    color: '#FFFFFF',
   },
-  descricaoTarefa: {
-    fontSize: 24,
-    color: CORES.TEXTO_CLARO,
-  },
-  separadorListagem: {
-    height: 8,
-  },
-  containerCampoAdicionar: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    padding: 16,
-    gap: 16,
-  },
-  campoAdicionar: {
-    flex: 1,
+  textoBranco: {
+    color: '#FFFFFF',
   },
 });
 
