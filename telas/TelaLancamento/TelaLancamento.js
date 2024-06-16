@@ -5,6 +5,7 @@ import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import api from '../../comum/servicos/api';
 import { estilos, pickerSelectStyles } from './TelaFormularioStyle';
+import { TextInputMask } from 'react-native-masked-text';
 
 const TelaLancamento = () => {
   const [descricao, setDescricao] = useState('');
@@ -74,13 +75,18 @@ const TelaLancamento = () => {
       descricao,
       lancamentoTipo,
       valor,
-      dataVencimento,
+      dataVencimento: convertDataVencimento(dataVencimento), // Convertendo para formato esperado pela API
       receitaId,
       contaBancariaId,
       centroCustoId,
     };
     console.log(novoLancamento);
     await enviarDadosParaAPI('/lancamento', novoLancamento);
+  };
+
+  const convertDataVencimento = (data) => {
+    const [day, month, year] = data.split('/');
+    return `${year}-${month}-${day}`; // Convertendo para YYYY-MM-DD
   };
 
   return (
@@ -101,7 +107,16 @@ const TelaLancamento = () => {
         placeholder={{ label: 'Selecione o tipo de pagamento', value: "" }}
       />
       <CampoTextoCustomizado style={estilos.textocampo} placeholder="Valor" value={valor} onChangeText={setValor} />
-      <CampoTextoCustomizado style={estilos.textocampo} placeholder="Data de vencimento" value={dataVencimento} onChangeText={setDataVencimento} />
+      <TextInputMask
+        type={'datetime'}
+        options={{
+          format: 'DD/MM/YYYY'
+        }}
+        style={estilos.textocampo}
+        placeholder="Data de vencimento"
+        value={dataVencimento}
+        onChangeText={setDataVencimento}
+      />
       {lancamentoTipo === 'Recebimento' ? (
         <RNPickerSelect
           style={pickerSelectStyles}
