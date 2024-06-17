@@ -45,24 +45,24 @@ const TelaNovoUsuario = (props) => {
     <ScrollView style={estilos.scrollView}>
       <View style={estilos.container}>
         <View style={estilos.containerTituloNovoUsuario}>
-          <Text style={estilos.tituloNovoUsuario}>Novo Usuário</Text>
+          <Text style={estilos.tituloNovoUsuario}>Crie seu cadastro</Text>
         </View>
 
-        <CampoTextoCustomizado label='Nome' value={campoNome} onChangeText={setCampoNome} />
-        <CampoTextoCustomizado label='Email' value={campoEmail} onChangeText={setCampoEmail} />
-        <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha} />
-        <CampoTextoCustomizado label='CPF' value={campoCPF} onChangeText={setCampoCPF} />
-        <CampoTextoCustomizado label='Data de Nascimento' value={campoDtNascimento} onChangeText={setCampoDtNascimento} />
-        <CampoTextoCustomizado label='Estado' value={campoEstado} onChangeText={setCampoEstado} />
-        <CampoTextoCustomizado label='Cidade' value={campoCidade} onChangeText={setCampoCidade} />
-        <CampoTextoCustomizado label='Bairro' value={campoBairro} onChangeText={setCampoBairro} />
-        <CampoTextoCustomizado label='Rua' value={campoRua} onChangeText={setCampoRua} />
-        <CampoTextoCustomizado label='Número' value={campoNumero} onChangeText={setCampoNumero} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Nome' value={campoNome} onChangeText={setCampoNome} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Email' value={campoEmail} onChangeText={setCampoEmail} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Senha' value={campoSenha} onChangeText={setCampoSenha} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='CPF' value={campoCPF} onChangeText={setCampoCPF} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Data de Nascimento' value={campoDtNascimento} onChangeText={setCampoDtNascimento} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Estado' value={campoEstado} onChangeText={setCampoEstado} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Cidade' value={campoCidade} onChangeText={setCampoCidade} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Bairro' value={campoBairro} onChangeText={setCampoBairro} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Rua' value={campoRua} onChangeText={setCampoRua} />
+        <CampoTextoCustomizado style={estilos.input} placeholder='Número' value={campoNumero} onChangeText={setCampoNumero} />
 
         <BotaoCustomizado cor='secundaria' onPress={salvar}>
           Salvar
         </BotaoCustomizado>
-        <BotaoCustomizado onPress={() => props.navigation.navigate(TELAS.TELA_LOGIN)}>Já tenho uma conta</BotaoCustomizado>
+        <BotaoCustomizado cor='primaria' onPress={() => props.navigation.navigate(TELAS.TELA_LOGIN)}>Já tenho uma conta</BotaoCustomizado>
       </View>
     </ScrollView>
   );

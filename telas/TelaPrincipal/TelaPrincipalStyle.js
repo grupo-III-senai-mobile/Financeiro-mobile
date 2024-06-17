@@ -55,10 +55,15 @@ const styles = StyleSheet.create({
     textContainer: {
       marginBottom: 20,
       color: "white",
+
     },
     text: {
+
       fontSize: 16,
       color: "white",
+      padding:10,
+      gap:20,
+      paddingTop:200,
     },
   });
   

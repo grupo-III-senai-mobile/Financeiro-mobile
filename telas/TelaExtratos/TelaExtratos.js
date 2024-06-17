@@ -45,7 +45,9 @@ const TelaListaLancamentos = () => {
   };
 
   const renderItemLancamento = ({ item }) => (
+    
     <View style={styles.lancamentoItem}>
+      
       <View style={styles.iconContainer}>
         {item.lancamentoTipo === 'Recebimento' && (
           <MaterialIcons name="arrow-downward" size={20} color="green" />
@@ -68,6 +70,14 @@ const TelaListaLancamentos = () => {
 
   return (
     <SafeAreaView style={estilos.container}>
+      <View style={{ alignSelf: 'center' }}>
+        < MaterialIcons style={estilos.icons} name='leaderboard' size={64}  />
+      </View>
+
+      <View style={{ flexDirection: 'center', alignItems: 'center'}}>
+        <Text style={estilos.text} >Extrato</Text>
+      </View>
+
       <TouchableOpacity onPress={fetchLancamentos} style={styles.botaoAtualizar}>
         <Text style={styles.textoBotaoAtualizar}>Atualizar Lista</Text>
       </TouchableOpacity>

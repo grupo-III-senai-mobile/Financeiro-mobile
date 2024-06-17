@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
 import TELAS from '../../comum/constantes/telas';
@@ -34,15 +34,16 @@ const TelaLogin = (props) => {
 
   return (
     <View style={estilos.container}>
-      <View style={estilos.containerTituloEntrar}>
-        <Text style={estilos.tituloEntrar}>Entrar</Text>
+      <View style={estilos.logoContainer}>
+   <Image source={require('../../assets/logo.png')} style={estilos.logo} />
       </View>
-      <CampoTextoCustomizado label='E-mail' value={campoUsuario} onChangeText={setCampoUsuario} />
-      <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha} />
+
+      <CampoTextoCustomizado  style={estilos.input} placeholder='E-mail'  value={campoUsuario} onChangeText={setCampoUsuario} />
+      <CampoTextoCustomizado icon='lock' style={estilos.input} placeholder='Senha' value={campoSenha} onChangeText={setCampoSenha} />
       <BotaoCustomizado cor='primaria' onPress={handleEntrar}>
         Entrar
       </BotaoCustomizado>
-      <BotaoCustomizado onPress={handleCadastroUsuario}>
+      <BotaoCustomizado cor='secundaria' onPress={handleCadastroUsuario}>
         Novo Cadastro
       </BotaoCustomizado>
     </View>

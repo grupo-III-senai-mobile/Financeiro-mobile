@@ -12,6 +12,15 @@ const estilos = StyleSheet.create({
   textoBranco: {
     color: '#FFFFFF',
   },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 10,
+  },
+  icons : {
+    color : '#27A791'
+  }
 });
 
 export default estilos;

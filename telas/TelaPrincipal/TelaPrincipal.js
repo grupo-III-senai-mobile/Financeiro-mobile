@@ -69,6 +69,7 @@ const TelaPrincipal = () => {
           renderItem={renderItemLancamento}
           keyExtractor={(item) => item.id.toString()}
         />
+        <View style={styles.textContainer}></View>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.text}>Aqui você encontrará informações importantes sobre seus lançamentos financeiros.</Text>

@@ -74,14 +74,14 @@ const TelaLancamento = () => {
     const novoLancamento = {
       descricao,
       lancamentoTipo,
-      valor,
+      valor: parseFloat(valor),
       dataVencimento: convertDataVencimento(dataVencimento), // Convertendo para formato esperado pela API
       receitaId,
       contaBancariaId,
       centroCustoId,
     };
     console.log(novoLancamento);
-    await enviarDadosParaAPI('/lancamento', novoLancamento);
+    await api.post('/lancamento', novoLancamento);
   };
 
   const convertDataVencimento = (data) => {

@@ -23,21 +23,24 @@ const TelaFormulario = () => {
   const fetchUserData = async () => {
     try {
       const usuarioLogado = await AsyncStorage.getItem('USUARIO_LOGADO');
-      if (usuarioLogado) {
-        const userData = JSON.parse(usuarioLogado);
-        const userId = userData.resultado.id;
+      if (!usuarioLogado) {
+        throw new Error('Nenhum usuário logado encontrado no AsyncStorage.');
+      }
 
-        if (!userId) {
-          throw new Error("ID do usuário não encontrado no AsyncStorage.");
-        }
+      const userData = JSON.parse(usuarioLogado);
 
-        const response = await api.get(`/usuario/${userId}`);
-        if (response.data.resultado) {
-          setUsuario(response.data.resultado);
-          await AsyncStorage.setItem('USUARIO_LOGADO', JSON.stringify({ resultado: response.data.resultado }));
-        } else {
-          Alert.alert('Erro', 'Usuário não encontrado.');
-        }
+      if (!userData || !userData.resultado || !userData.resultado.id) {
+        throw new Error('Dados do usuário não encontrados ou inválidos no AsyncStorage.');
+      }
+
+      const userId = userData.resultado.id;
+      const response = await api.get(`/usuario/${userId}`);
+
+      if (response.data.resultado) {
+        setUsuario(response.data.resultado);
+        await AsyncStorage.setItem('USUARIO_LOGADO', JSON.stringify({ resultado: response.data.resultado }));
+      } else {
+        Alert.alert('Erro', 'Usuário não encontrado.');
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
