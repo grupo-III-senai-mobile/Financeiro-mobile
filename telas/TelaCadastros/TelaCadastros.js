@@ -2,12 +2,10 @@ import React from 'react';
 import {View, ScrollView, Text } from 'react-native';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
-import CORES from '../../comum/constantes/cores';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import api from '../../comum/servicos/api';
-import { useNavigation } from '@react-navigation/native';
 
 import { estilos} from './TelaCadastrosStyle';
 

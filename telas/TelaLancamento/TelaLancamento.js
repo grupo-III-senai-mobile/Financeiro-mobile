@@ -58,24 +58,24 @@ const TelaLancamento = () => {
     fetchData();
   }, []);
 
-  const enviarDadosParaAPI = async (endpoint, dados) => {
-    try {
-      console.log("Enviando dados para a API:", endpoint, dados);
-      await api.post(endpoint, dados);
-      alert('Dados salvos com sucesso!');
-    } catch (error) {
-      console.error("Erro na solicitação:", error);
-      const mensagemErro = error.response?.data || 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
-      alert(mensagemErro);
-    }
-  };
+  // const enviarDadosParaAPI = async (endpoint, dados) => {
+  //   try {
+  //     console.log("Enviando dados para a API:", endpoint, dados);
+  //     await api.post(endpoint, dados);
+  //     alert('Dados salvos com sucesso!');
+  //   } catch (error) {
+  //     console.error("Erro na solicitação:", error);
+  //     const mensagemErro = error.response?.data || 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+  //     alert(mensagemErro);
+  //   }
+  // };
 
   const adicionarLancamento = async () => {
     const novoLancamento = {
       descricao,
       lancamentoTipo,
       valor: parseFloat(valor),
-      dataVencimento: convertDataVencimento(dataVencimento), // Convertendo para formato esperado pela API
+      dataVencimento: convertDataVencimento(dataVencimento), 
       receitaId,
       contaBancariaId,
       centroCustoId,
@@ -86,7 +86,7 @@ const TelaLancamento = () => {
 
   const convertDataVencimento = (data) => {
     const [day, month, year] = data.split('/');
-    return `${year}-${month}-${day}`; // Convertendo para YYYY-MM-DD
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -96,8 +96,8 @@ const TelaLancamento = () => {
         style={pickerSelectStyles}
         onValueChange={(value) => {
           setlancamentoTipo(value);
-          setReceita(''); // Limpar receita ao mudar tipo para 'Pagamento'
-          setCentroCusto(''); // Limpar centro de custo ao mudar tipo para 'Recebimento'
+          setReceita('');
+          setCentroCusto('');
         }}
         value={lancamentoTipo}
         items={[

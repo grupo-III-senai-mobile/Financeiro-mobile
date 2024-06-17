@@ -72,7 +72,7 @@ const TelaPrincipal = () => {
         <View style={styles.textContainer}></View>
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>Aqui você encontrará informações importantes sobre seus lançamentos financeiros.</Text>
+        <Text style={styles.text}>Gerencie suas finanças pessoais com facilidade usando um aplicativo de controle financeiro intuitivo. Acompanhe suas receitas e despesas de maneira organizada, categorizando todos os seus gastos para uma visão clara de onde seu dinheiro está sendo direcionado.</Text>
       </View>
     </ScrollView>
   );
